@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  apifilmes:
+    image: ${DOCKER_REGISTRY-}apifilmes
+    build:
+      context: .\ApiFilmes
+      dockerfile: Dockerfile

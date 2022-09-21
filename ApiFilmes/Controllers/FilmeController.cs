@@ -24,7 +24,7 @@ namespace ApiFilmes.Controllers
         // GET: api/Filme/5
         [HttpGet]
         public Filme Get(string id)
-        {
+        { 
             var filmeDAO = new FilmeDAO();
             var filme = filmeDAO.SelectFilmePeloImdb(id);
             return filme;
@@ -47,8 +47,8 @@ namespace ApiFilmes.Controllers
             if (filme == null)
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
 
-            var elementDAO = new FilmeDAO();
-            elementDAO.Update(filme);
+            var filmeDAO = new FilmeDAO();
+            filmeDAO.Update(filme);
         }
 
         // DELETE: api/Filme/5

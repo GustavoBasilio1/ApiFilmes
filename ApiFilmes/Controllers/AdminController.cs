@@ -1,39 +1,67 @@
-﻿using System;
+﻿using ApiAdmins.Models;
+using ApiFilmes.Models;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace ApiFilmes.Controllers
+namespace ApiAdmins.Controllers
 {
     public class AdminController : ApiController
     {
         // GET: api/Admin
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public IEnumerable Get()
         {
-            return new string[] { "value1", "value2" };
+            var adminDAO = new AdminDAO();
+            var adminlist = adminDAO.SelectTodosAdmins();
+            return adminlist;
         }
 
+
         // GET: api/Admin/5
-        public string Get(int id)
+        [HttpGet]
+        public Admin Get(string id)
         {
-            return "value";
+            var adminDAO = new AdminDAO();
+            var admin = adminDAO.SelectAdminPeloImdb(id);
+            return admin;
         }
 
         // POST: api/Admin
-        public void Post([FromBody]string value)
+        [HttpPost]
+        public void Post([FromBody] Admin admin)
         {
+            if (admin == null)
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+
+            var adminDAO = new AdminDAO();
+            adminDAO.Insert(admin);
         }
 
         // PUT: api/Admin/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody] Admin admin)
         {
+            if (admin == null)
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+
+            var adminDAO = new AdminDAO();
+            adminDAO.Update(admin);
         }
 
         // DELETE: api/Admin/5
-        public void Delete(int id)
+        public Admin Delete(string id)
         {
+            var adminDAO = new AdminDAO();
+            var admin = adminDAO.SelectAdminPeloImdb(id);
+            if (admin == null)
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+
+            adminDAO.Delete(id);
+            return admin;
         }
     }
 }
